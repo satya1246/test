@@ -1,0 +1,21 @@
+name: Extract Branch Name
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  extract_branch_name:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Extract branch name
+      id: extract_branch
+      run: |
+        BRANCH_NAME=$(echo $GITHUB_REF | awk -F'/' '{print $3}')
+        echo "Branch name: $BRANCH_NAME"
+        echo "##[set-output name=branch_name;]$BRANCH_NAME"
+    
+    - name: Print branch name
+      run: echo "Branch name is ${{ steps.extract_branch.outputs.branch_name }}"
